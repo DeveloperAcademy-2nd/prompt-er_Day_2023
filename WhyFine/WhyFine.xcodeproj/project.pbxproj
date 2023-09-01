@@ -14,7 +14,6 @@
 		DE3C420D2AA1D5B500DDD189 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3C420C2AA1D5B500DDD189 /* QuestionView.swift */; };
 		DE3C420F2AA1D5BF00DDD189 /* StorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3C420E2AA1D5BF00DDD189 /* StorageView.swift */; };
 		DE3C42112AA1D5CC00DDD189 /* AnalyzeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3C42102AA1D5CC00DDD189 /* AnalyzeView.swift */; };
-		DE3C42142AA1F3A600DDD189 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3C42132AA1F3A600DDD189 /* OnboardingView.swift */; };
 		DE3C42162AA1F8E100DDD189 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3C42152AA1F8E100DDD189 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +27,6 @@
 		DE3C420C2AA1D5B500DDD189 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		DE3C420E2AA1D5BF00DDD189 /* StorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageView.swift; sourceTree = "<group>"; };
 		DE3C42102AA1D5CC00DDD189 /* AnalyzeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyzeView.swift; sourceTree = "<group>"; };
-		DE3C42132AA1F3A600DDD189 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		DE3C42152AA1F8E100DDD189 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,7 +82,6 @@
 		934A3FFA2AA1D13700908D4D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DE3C42122AA1F39300DDD189 /* Onboarding */,
 				DE3C42172AA1F8E900DDD189 /* Main */,
 			);
 			path = Views;
@@ -95,14 +92,6 @@
 			children = (
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		DE3C42122AA1F39300DDD189 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				DE3C42132AA1F3A600DDD189 /* OnboardingView.swift */,
-			);
-			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		DE3C42172AA1F8E900DDD189 /* Main */ = {
@@ -190,7 +179,6 @@
 				DE3C42162AA1F8E100DDD189 /* MainView.swift in Sources */,
 				934A3FEE2AA1D0B700908D4D /* ContentView.swift in Sources */,
 				DE3C42112AA1D5CC00DDD189 /* AnalyzeView.swift in Sources */,
-				DE3C42142AA1F3A600DDD189 /* OnboardingView.swift in Sources */,
 				DE3C420D2AA1D5B500DDD189 /* QuestionView.swift in Sources */,
 				934A3FEC2AA1D0B700908D4D /* WhyFineApp.swift in Sources */,
 			);

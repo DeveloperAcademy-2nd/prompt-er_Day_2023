@@ -9,16 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
-    
     var body: some View {
         NavigationView {
-            if isFirstLaunching == true {
-                OnboardingView()
-            } else {
-                MainView()
-            }
-            
+            MainView()
         }
         
     }
@@ -29,8 +22,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-public func checkIfFirstInApp() {
-    UserDefaults.standard.set(false, forKey: "firstInApp")
-}
-
