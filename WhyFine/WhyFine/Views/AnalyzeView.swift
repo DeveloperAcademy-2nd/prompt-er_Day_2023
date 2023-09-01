@@ -9,7 +9,17 @@ import SwiftUI
 
 struct AnalyzeView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button {
+            
+        } label: {
+            Text("아이 성향 분석하기")
+                .padding()
+                .foregroundColor(.white)
+                .background(.blue)
+                .cornerRadius(16)
+                .fontWeight(.bold)
+        }
+
     }
 }
 

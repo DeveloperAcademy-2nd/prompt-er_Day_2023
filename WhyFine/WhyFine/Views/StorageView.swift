@@ -20,7 +20,7 @@ struct StorageView: View {
                     Text(t)
                 }
             }
-            .navigationTitle("질문들")
+            .navigationTitle("질문")
             .searchable(text: $searchText)
         }
     }
