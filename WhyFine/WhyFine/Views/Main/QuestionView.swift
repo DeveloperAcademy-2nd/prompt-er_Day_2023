@@ -11,6 +11,7 @@ import SwiftUI
 
 struct QuestionView: View {
     @Environment(\.managedObjectContext) var managedObjContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var questionList: FetchedResults<Question>
     
     @State private var selectedYear: Int = 2023
     
@@ -28,9 +29,16 @@ struct QuestionView: View {
             }
             .padding(.bottom)
             
-            ScrollView {
-                askAndAnswerView(questionText, answerText)
+            ScrollViewReader { scrollView in
+                ScrollView(.vertical) {
+                    LazyVStack {
+                        ForEach(questionList.reversed(), id: \.id) { questionList in
+                            askAndAnswerView(questionList.sentence ?? "", "")
+                        }
+                    }
+                }
             }
+            
             Spacer()
             
             HStack {
