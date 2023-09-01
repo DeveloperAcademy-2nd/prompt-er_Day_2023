@@ -13,9 +13,9 @@ struct WhyFineApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            ContentView()
-            RecordView(questionSentence: "")
+            ContentView()
                 .environment(\.managedObjectContext, questionDataController.container.viewContext)
+                
         }
     }
 }
