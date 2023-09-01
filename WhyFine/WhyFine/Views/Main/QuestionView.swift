@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftUI
 
 struct QuestionView: View {
+    @Environment(\.managedObjectContext) var managedObjContext
     
     @State private var selectedYear: Int = 2023
     
@@ -37,6 +38,9 @@ struct QuestionView: View {
                     .textFieldStyle(.roundedBorder)
                 
                 Button {
+                    QuestionDataController()
+                        .addQuestion(sentence: askingQuestion, context: managedObjContext)
+                    askingQuestion = ""
                     
                 } label: {
                     Image(systemName: "paperplane.circle.fill")
