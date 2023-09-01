@@ -8,23 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @AppStorage("_isFirstLaunching") var isFirstLaunching: Bool = true
+    
     var body: some View {
-        TabView {
-            QuestionView()
-                .tabItem {
-                    Image(systemName: "message")
-                }
+        NavigationView {
+            if isFirstLaunching == true {
+                OnboardingView()
+            } else {
+                MainView()
+            }
             
-            StorageView()
-                .tabItem {
-                    Image(systemName: "tray.full.fill")
-                }
-            
-            AnalyzeView()
-                .tabItem {
-                    Image(systemName: "list.clipboard.fill")
-                }
         }
+        
     }
 }
 
@@ -33,3 +29,8 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+public func checkIfFirstInApp() {
+    UserDefaults.standard.set(false, forKey: "firstInApp")
+}
+
