@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct WhyFineApp: App {
+    @StateObject private var questionDataController = QuestionDataController()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+            RecordView(questionSentence: "")
+                .environment(\.managedObjectContext, questionDataController.container.viewContext)
         }
     }
 }
