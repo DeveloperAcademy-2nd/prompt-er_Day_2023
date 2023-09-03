@@ -21,16 +21,11 @@ struct AnalyzeView: View {
 
     이러한 세 가지 키워드를 통해 이 아이는 지적 호기심을 가진, 과학적인 관심을 가지고 있는 미래의 학습자로서의 특성을 보여줍니다.
     """
-    private var extractedArticle: String = """
+    @State private var extractedArticle: String = """
     호기심(60%)
     과학적 관심(20%)
     미래 고민(20%)
     """
-    
-    private func keywordArrayMaker(_ keywords: String) -> [String] {
-        let keywordArray = keywords.components(separatedBy: "\n")
-        return keywordArray
-    }
     
     var body: some View {
         VStack {
@@ -55,9 +50,11 @@ struct AnalyzeView: View {
             } else {
                 ScrollView {
                     
-                    keywordRankViewer(rank: "1.", label: "호기심", persentage: "60%", medalBGColor: .yellow, meadalFGColor: .white)
-                    keywordRankViewer(rank: "2.", label: "과학적 관심", persentage: "20%", medalBGColor: .gray, meadalFGColor: .white)
-                    keywordRankViewer(rank: "3.", label: "미래 고민", persentage: "20%", medalBGColor: .brown, meadalFGColor: .white)
+                    let pairs = extractKeywordsAndPercentages(from: extractedArticle)
+                    
+                    keywordRankViewer(rank: "1.", label: pairs[0].keyword, persentage: String(pairs[0].percent)+"%", medalBGColor: .yellow, meadalFGColor: .white)
+                    keywordRankViewer(rank: "2.", label: pairs[1].keyword, persentage: String(pairs[1].percent)+"%", medalBGColor: .gray, meadalFGColor: .white)
+                    keywordRankViewer(rank: "3.", label: pairs[2].keyword, persentage: String(pairs[2].percent)+"%", medalBGColor: .brown, meadalFGColor: .white)
                     
                     Text(article)
                         .padding()
@@ -105,3 +102,31 @@ struct AnalyzeView_Previews: PreviewProvider {
         AnalyzeView()
     }
 }
+
+struct KeywordPercentPair: Identifiable {
+    var id = UUID()
+    var keyword: String
+    var percent: Int
+}
+
+func extractKeywordsAndPercentages(from input: String) -> [KeywordPercentPair] {
+    var pairs: [KeywordPercentPair] = []
+    
+    let lines = input.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: "\n")
+    
+    for line in lines {
+        let components = line.components(separatedBy: "(")
+        if components.count == 2 {
+            let keyword = components[0].trimmingCharacters(in: .whitespaces)
+            let percentString = components[1].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "%)", with: "")
+            
+            if let percent = Int(percentString) {
+                let pair = KeywordPercentPair(keyword: keyword, percent: percent)
+                pairs.append(pair)
+            }
+        }
+    }
+    
+    return pairs
+}
+
