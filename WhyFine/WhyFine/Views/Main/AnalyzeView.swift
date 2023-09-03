@@ -9,22 +9,23 @@ import SwiftUI
 
 struct AnalyzeView: View {
     
-    @State var isAnalyzed: Bool = false
-    @State var report: String = """
-    이 아이의 질문들은 자연과 과학, 환경, 인간 행동, 그리고 미래에 대한 다양한 주제에 대한 호기심을 나타내며, 교육적인 관심과 탐구 정신을 보여줍니다. 이러한 질문들을 종합적으로 분석하면, 아이는 지적 탐구와 관찰력을 향상하고, 자신의 주변 세계와 연결하며 이해하기를 원하는 학습자로 보입니다.
-    
-    첫째로, "왜 하늘은 파랗게 보일까?"라는 질문을 통해 아이는 빛과 색에 대한 과학적 원리를 이해하고자 합니다. 이 질문은 과학적 지식을 개발하고 더 깊은 이해를 추구하는 데 도움이 될 것입니다.
+    @State private var isAnalyzed: Bool = false
+    @State private var article: String = """
+    5세 아이의 질문들을 분석하면 다음과 같은 3가지 키워드가 도출됩니다:
 
-    둘째로, "구름은 어떻게 만들어지나요?"라는 질문은 기상 현상과 환경에 대한 호기심을 보여줍니다. 아이는 구름의 형성과 기상 상황 사이의 관계를 이해하고자 하며, 이를 통해 환경에 대한 이해력을 향상시킬 것입니다.
+    호기심(Curiosity): 이 아이는 다양한 주제에 대한 호기심이 높습니다. 하늘의 색, 구름의 형성, 동물 소리, 날씨 등 다양한 주제에 대해 궁금해하고 있습니다. 이러한 호기심은 새로운 정보를 탐색하려는 욕구를 나타냅니다.
 
-    셋째로, "동물들이 어떻게 소리를 내나요?"라는 질문은 동물 행동과 소리에 대한 궁금증을 나타냅니다. 아이는 동물의 의사소통 방법과 소리의 원리를 탐구하며 동물과 인간의 상호작용에 대한 이해를 확장하려고 합니다.
+    과학적 관심(Scientific Interest): 아이의 질문들은 과학과 관련된 주제에 대한 관심을 나타냅니다. 하늘의 색이나 구름의 형성과 같은 현상에 대한 과학적 원리를 이해하려는 노력을 보여줍니다.
 
-    넷째로, "왜 비가 내릴까요?"라는 질문은 날씨와 기후 현상에 대한 호기심을 나타냅니다. 아이는 강우의 원리와 기상 패턴에 대한 더 많은 지식을 획득하고자 합니다.
+    미래 고민(Future Exploration): 마지막 질문에서 "나중에 어른이 되면 무엇이 될까요?"라는 질문은 미래에 대한 고민과 상상력을 나타냅니다. 아이는 자신의 미래와 직업에 대한 생각을 하고 있으며, 성장과 역할에 대한 고민을 가지고 있습니다.
 
-    다섯째로, "왜 나무는 무엇을 먹을까요?"라는 질문은 자연 생태계와 생물학에 대한 관심을 보여줍니다. 아이는 나무와 식물의 영양 흡수 과정과 생태학적 역할을 이해하고자 합니다.
-
-    이 아이의 호기심과 질문들은 교육적으로 유용한 발판이며, 과학적 탐구와 환경에 대한 관심을 촉진하는데 도움이 될 것입니다.
-"""
+    이러한 세 가지 키워드를 통해 이 아이는 지적 호기심을 가진, 과학적인 관심을 가지고 있는 미래의 학습자로서의 특성을 보여줍니다.
+    """
+    @State private var extractedArticle: String = """
+    호기심(60%)
+    과학적 관심(20%)
+    미래 고민(20%)
+    """
     
     var body: some View {
         VStack {
@@ -48,15 +49,51 @@ struct AnalyzeView: View {
                 
             } else {
                 ScrollView {
-                    Text(report)
+                    
+                    let pairs = extractKeywordsAndPercentages(from: extractedArticle)
+                    
+                    keywordRankViewer(rank: "1.", label: pairs[0].keyword, persentage: String(pairs[0].percent)+"%", medalBGColor: .yellow, meadalFGColor: .white)
+                    keywordRankViewer(rank: "2.", label: pairs[1].keyword, persentage: String(pairs[1].percent)+"%", medalBGColor: .gray, meadalFGColor: .white)
+                    keywordRankViewer(rank: "3.", label: pairs[2].keyword, persentage: String(pairs[2].percent)+"%", medalBGColor: .brown, meadalFGColor: .white)
+                    
+                    Text(article)
                         .padding()
                         .background(Color(uiColor: .systemGray6))
                         .cornerRadius(16)
-                        .lineSpacing(5)
+                    
+                    
                 }
             }
         }
         .padding()
+    }
+    
+    @ViewBuilder
+    private func keywordRankViewer(rank: String, label: String, persentage: String, medalBGColor: Color, meadalFGColor: Color) -> some View {
+        HStack(alignment: .top) {
+            Text(rank)
+                .font(.system(size: 50))
+                .fontWeight(.bold)
+                .foregroundColor(meadalFGColor)
+                .padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 0))
+            
+            Spacer()
+            
+            VStack(alignment: .trailing) {
+                Text(label)
+                    .font(.system(size: 38))
+                    .fontWeight(.heavy)
+                    .foregroundColor(meadalFGColor)
+                
+                Text(persentage)
+                    .font(.system(size: 16))
+                    .foregroundColor(meadalFGColor)
+            }
+        }
+        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+        .background(medalBGColor)
+        .cornerRadius(16)
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
     }
 }
 
@@ -65,3 +102,31 @@ struct AnalyzeView_Previews: PreviewProvider {
         AnalyzeView()
     }
 }
+
+struct KeywordPercentPair: Identifiable {
+    var id = UUID()
+    var keyword: String
+    var percent: Int
+}
+
+func extractKeywordsAndPercentages(from input: String) -> [KeywordPercentPair] {
+    var pairs: [KeywordPercentPair] = []
+    
+    let lines = input.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: "\n")
+    
+    for line in lines {
+        let components = line.components(separatedBy: "(")
+        if components.count == 2 {
+            let keyword = components[0].trimmingCharacters(in: .whitespaces)
+            let percentString = components[1].trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "%)", with: "")
+            
+            if let percent = Int(percentString) {
+                let pair = KeywordPercentPair(keyword: keyword, percent: percent)
+                pairs.append(pair)
+            }
+        }
+    }
+    
+    return pairs
+}
+
