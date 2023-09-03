@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93033FCD2AA4891200ED6976 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93033FCC2AA4891200ED6976 /* APIKey.swift */; };
 		934A3FEC2AA1D0B700908D4D /* WhyFineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934A3FEB2AA1D0B700908D4D /* WhyFineApp.swift */; };
 		934A3FEE2AA1D0B700908D4D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934A3FED2AA1D0B700908D4D /* ContentView.swift */; };
 		934A3FF02AA1D0B700908D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 934A3FEF2AA1D0B700908D4D /* Assets.xcassets */; };
 		934A3FF42AA1D0B700908D4D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 934A3FF32AA1D0B700908D4D /* Preview Assets.xcassets */; };
 		9392E8542AA3CCAA000C7D70 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9392E8532AA3CCAA000C7D70 /* Alamofire */; };
 		9392E8562AA3CD56000C7D70 /* OpenAIAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9392E8552AA3CD56000C7D70 /* OpenAIAPI.swift */; };
-		9392E8582AA3CE1E000C7D70 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9392E8572AA3CE1E000C7D70 /* Constants.swift */; };
 		9392E85A2AA3D37B000C7D70 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9392E8592AA3D37B000C7D70 /* Message.swift */; };
 		9392E85C2AA3D3B4000C7D70 /* OpenAIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9392E85B2AA3D3B4000C7D70 /* OpenAIModel.swift */; };
 		93F5A3ED2AA25CDC000E3223 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F5A3EC2AA25CDC000E3223 /* ViewModel.swift */; };
@@ -26,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		93033FCC2AA4891200ED6976 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		934A3FE82AA1D0B700908D4D /* WhyFine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhyFine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		934A3FEB2AA1D0B700908D4D /* WhyFineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhyFineApp.swift; sourceTree = "<group>"; };
 		934A3FED2AA1D0B700908D4D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -33,7 +34,6 @@
 		934A3FF12AA1D0B700908D4D /* WhyFine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhyFine.entitlements; sourceTree = "<group>"; };
 		934A3FF32AA1D0B700908D4D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9392E8552AA3CD56000C7D70 /* OpenAIAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIAPI.swift; sourceTree = "<group>"; };
-		9392E8572AA3CE1E000C7D70 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9392E8592AA3D37B000C7D70 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		9392E85B2AA3D3B4000C7D70 /* OpenAIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIModel.swift; sourceTree = "<group>"; };
 		93F5A3EC2AA25CDC000E3223 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -78,7 +78,7 @@
 			children = (
 				93F5A3EC2AA25CDC000E3223 /* ViewModel.swift */,
 				9392E8552AA3CD56000C7D70 /* OpenAIAPI.swift */,
-				9392E8572AA3CE1E000C7D70 /* Constants.swift */,
+				93033FCC2AA4891200ED6976 /* APIKey.swift */,
 				D9AEA3142AA215AE00C8AE45 /* Controller */,
 				934A3FFB2AA1D13D00908D4D /* Models */,
 				934A3FFA2AA1D13700908D4D /* Views */,
@@ -184,7 +184,7 @@
 			);
 			mainGroup = 934A3FDF2AA1D0B700908D4D;
 			packageReferences = (
-				9392E8522AA3CCAA000C7D70 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
+				9392E8522AA3CCAA000C7D70 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 934A3FE92AA1D0B700908D4D /* Products */;
 			projectDirPath = "";
@@ -213,13 +213,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9392E8562AA3CD56000C7D70 /* OpenAIAPI.swift in Sources */,
-				9392E8582AA3CE1E000C7D70 /* Constants.swift in Sources */,
 				DE3C420F2AA1D5BF00DDD189 /* StorageView.swift in Sources */,
 				93F5A3ED2AA25CDC000E3223 /* ViewModel.swift in Sources */,
 				DE3C42162AA1F8E100DDD189 /* MainView.swift in Sources */,
 				934A3FEE2AA1D0B700908D4D /* ContentView.swift in Sources */,
 				D9F9A3252AA1F43B00466A5B /* QuestionDataController.swift in Sources */,
 				DE3C42112AA1D5CC00DDD189 /* AnalyzeView.swift in Sources */,
+				93033FCD2AA4891200ED6976 /* APIKey.swift in Sources */,
 				DE3C420D2AA1D5B500DDD189 /* QuestionView.swift in Sources */,
 				9392E85A2AA3D37B000C7D70 /* Message.swift in Sources */,
 				9392E85C2AA3D3B4000C7D70 /* OpenAIModel.swift in Sources */,
@@ -440,7 +440,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9392E8522AA3CCAA000C7D70 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+		9392E8522AA3CCAA000C7D70 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -453,7 +453,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		9392E8532AA3CCAA000C7D70 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9392E8522AA3CCAA000C7D70 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 9392E8522AA3CCAA000C7D70 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
