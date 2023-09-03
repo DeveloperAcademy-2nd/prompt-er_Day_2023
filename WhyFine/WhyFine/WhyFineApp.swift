@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@main
+ @main
 struct WhyFineApp: App {
     @StateObject private var questionDataController = QuestionDataController()
     
