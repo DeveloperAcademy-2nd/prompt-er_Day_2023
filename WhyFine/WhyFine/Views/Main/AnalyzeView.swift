@@ -8,24 +8,12 @@
 import SwiftUI
 
 struct AnalyzeView: View {
+    @Environment(\.managedObjectContext) var managedObjContext
+    @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var questionList: FetchedResults<Question>
+    
+    @ObservedObject var viewModel = ViewModel()
     
     @State private var isAnalyzed: Bool = false
-    @State private var article: String = """
-    5세 아이의 질문들을 분석하면 다음과 같은 3가지 키워드가 도출됩니다:
-
-    호기심(Curiosity): 이 아이는 다양한 주제에 대한 호기심이 높습니다. 하늘의 색, 구름의 형성, 동물 소리, 날씨 등 다양한 주제에 대해 궁금해하고 있습니다. 이러한 호기심은 새로운 정보를 탐색하려는 욕구를 나타냅니다.
-
-    과학적 관심(Scientific Interest): 아이의 질문들은 과학과 관련된 주제에 대한 관심을 나타냅니다. 하늘의 색이나 구름의 형성과 같은 현상에 대한 과학적 원리를 이해하려는 노력을 보여줍니다.
-
-    미래 고민(Future Exploration): 마지막 질문에서 "나중에 어른이 되면 무엇이 될까요?"라는 질문은 미래에 대한 고민과 상상력을 나타냅니다. 아이는 자신의 미래와 직업에 대한 생각을 하고 있으며, 성장과 역할에 대한 고민을 가지고 있습니다.
-
-    이러한 세 가지 키워드를 통해 이 아이는 지적 호기심을 가진, 과학적인 관심을 가지고 있는 미래의 학습자로서의 특성을 보여줍니다.
-    """
-    @State private var extractedArticle: String = """
-    호기심(60%)
-    과학적 관심(20%)
-    미래 고민(20%)
-    """
     
     var body: some View {
         VStack {
@@ -35,6 +23,7 @@ struct AnalyzeView: View {
                     
                     Button {
                         isAnalyzed.toggle()
+                        viewModel.sendMessage()
                     } label: {
                         Text("아이 성향 분석하기")
                             .padding()
@@ -48,53 +37,67 @@ struct AnalyzeView: View {
                 }
                 
             } else {
-                ScrollView {
+                if (viewModel.keyword != "") {
                     
-                    let pairs = extractKeywordsAndPercentages(from: extractedArticle)
-                    
-                    keywordRankViewer(rank: "1.", label: pairs[0].keyword, persentage: String(pairs[0].percent)+"%", medalBGColor: .yellow, meadalFGColor: .white)
-                    keywordRankViewer(rank: "2.", label: pairs[1].keyword, persentage: String(pairs[1].percent)+"%", medalBGColor: .gray, meadalFGColor: .white)
-                    keywordRankViewer(rank: "3.", label: pairs[2].keyword, persentage: String(pairs[2].percent)+"%", medalBGColor: .brown, meadalFGColor: .white)
-                    
-                    Text(article)
-                        .padding()
-                        .background(Color(uiColor: .systemGray6))
-                        .cornerRadius(16)
-                    
-                    
+                    ScrollView {
+                        //                    if (viewModel.keyword != "") {
+                        let pairs = extractKeywordsAndPercentages(from: viewModel.keyword)
+                        
+                        keywordRankViewer(rank: "1.", label: pairs[0].keyword, persentage: String(pairs[0].percent)+"%", medalBGColor: .yellow, meadalFGColor: .white)
+                        keywordRankViewer(rank: "2.", label: pairs[1].keyword, persentage: String(pairs[1].percent)+"%", medalBGColor: .gray, meadalFGColor: .white)
+                        keywordRankViewer(rank: "3.", label: pairs[2].keyword, persentage: String(pairs[2].percent)+"%", medalBGColor: .brown, meadalFGColor: .white)
+                        
+                        Text(viewModel.article)
+                            .padding()
+                            .background(Color(uiColor: .systemGray6))
+                            .cornerRadius(16)
+                    }
                 }
-            }
-        }
-        .padding()
-    }
-    
-    @ViewBuilder
-    private func keywordRankViewer(rank: String, label: String, persentage: String, medalBGColor: Color, meadalFGColor: Color) -> some View {
-        HStack(alignment: .top) {
-            Text(rank)
-                .font(.system(size: 50))
-                .fontWeight(.bold)
-                .foregroundColor(meadalFGColor)
-                .padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 0))
-            
-            Spacer()
-            
-            VStack(alignment: .trailing) {
-                Text(label)
-                    .font(.system(size: 38))
-                    .fontWeight(.heavy)
-                    .foregroundColor(meadalFGColor)
+            else {
+                Spacer()
                 
-                Text(persentage)
-                    .font(.system(size: 16))
-                    .foregroundColor(meadalFGColor)
+                Text("아이의 성향을 분석 중 입니다 ...")
+                
+                Spacer()
             }
         }
-        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-        .background(medalBGColor)
-        .cornerRadius(16)
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
     }
+        .padding()
+        .onAppear {
+            for question in questionList {
+                viewModel.questionList += question.sentence ?? ""
+                viewModel.questionList += "\n"
+            }
+        }
+}
+
+@ViewBuilder
+private func keywordRankViewer(rank: String, label: String, persentage: String, medalBGColor: Color, meadalFGColor: Color) -> some View {
+    HStack(alignment: .top) {
+        Text(rank)
+            .font(.system(size: 50))
+            .fontWeight(.bold)
+            .foregroundColor(meadalFGColor)
+            .padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 0))
+        
+        Spacer()
+        
+        VStack(alignment: .trailing) {
+            Text(label)
+                .font(.system(size: 38))
+                .fontWeight(.heavy)
+                .foregroundColor(meadalFGColor)
+            
+            Text(persentage)
+                .font(.system(size: 16))
+                .foregroundColor(meadalFGColor)
+        }
+    }
+    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+    .background(medalBGColor)
+    .cornerRadius(16)
+    .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+}
 }
 
 struct AnalyzeView_Previews: PreviewProvider {
@@ -112,7 +115,7 @@ struct KeywordPercentPair: Identifiable {
 func extractKeywordsAndPercentages(from input: String) -> [KeywordPercentPair] {
     var pairs: [KeywordPercentPair] = []
     
-    let lines = input.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: "\n")
+    let lines = input.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: ",")
     
     for line in lines {
         let components = line.components(separatedBy: "(")
@@ -126,6 +129,8 @@ func extractKeywordsAndPercentages(from input: String) -> [KeywordPercentPair] {
             }
         }
     }
+    
+    pairs = pairs.sorted(by: {$0.percent > $1.percent})
     
     return pairs
 }

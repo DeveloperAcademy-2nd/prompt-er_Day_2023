@@ -14,20 +14,19 @@ struct QuestionView: View {
 //    @State var questionList: Array<String> = []
     @ObservedObject var viewModel = ViewModel()
     
-    @State private var selectedYear: Int = 2023
     @State var input = ""
     
     var body: some View {
         VStack {
             
-            Picker("아이가 언제 태어났나요?", selection: $selectedYear) {
-                ForEach(1990..<2024) { year in
-                    Text(String(year) + "년생").tag(year)
+            Picker("아이가 언제 태어났나요?", selection: $viewModel.age) {
+                ForEach(1..<10) { year in
+                    Text(String(year) + "세").tag(year)
                 }
             }
             .padding(.bottom)
             
-            ScrollView(.vertical) {
+            ScrollView(.vertical,showsIndicators: false) {
                 ScrollViewReader { proxy in
                     ForEach(viewModel.messages.filter({$0.role != .system}), id: \.id) { message in
                         messageView(message: message)
