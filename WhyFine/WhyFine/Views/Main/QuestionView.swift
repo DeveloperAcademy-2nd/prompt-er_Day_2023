@@ -7,17 +7,15 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct QuestionView: View {
     @Environment(\.managedObjectContext) var managedObjContext
     @FetchRequest(sortDescriptors: [SortDescriptor(\.date, order: .reverse)]) var questionList: FetchedResults<Question>
     
-    @State private var selectedYear: Int = 2023
+//    @State var questionList: Array<String> = []
+    @ObservedObject var viewModel = ViewModel()
     
-    @State var askingQuestion: String = ""
-    private var questionText: String = "왜 공장에서 연기가 나?"
-    private var answerText: String = "안녕, 친구야! 공장은 큰 건물이야. 거기에서는 다양한 일들을 하거나 물건을 만들어요. 그런데 때때로 공장 안에서 연기가 나와요. 연기는 물이나 물건을 더 뜨거워지게 하는 것 때문에 나와요. 그래서 공장 안에서 일할 때 뜨거운 것들이 있으면 연기가 나올 수 있어. 연기는 하늘로 올라가면서 사라져요. 중요한 건 연기는 우리 몸에 좋지 않아서 멀리 떨어져 있어야 해. 그리고 항상 안전하게 지내는 거야. 이해됐어, 친구야?"
+    @State private var selectedYear: Int = 2023
+    @State var input = ""
     
     var body: some View {
         VStack {
@@ -29,27 +27,29 @@ struct QuestionView: View {
             }
             .padding(.bottom)
             
-            ScrollViewReader { scrollView in
-                ScrollView(.vertical) {
-                    LazyVStack {
-                        ForEach(questionList.reversed(), id: \.id) { questionList in
-                            askAndAnswerView(questionList.sentence ?? "", "")
-                        }
+            ScrollView(.vertical) {
+                ScrollViewReader { proxy in
+                    ForEach(viewModel.messages.filter({$0.role != .system}), id: \.id) { message in
+                        messageView(message: message)
                     }
+                    .onChange(of: viewModel.messages.filter({$0.role != .system}).count) { _ in
+                        proxy.scrollTo(viewModel.messages.filter({$0.role != .system}).count - 1, anchor: .bottom)
+                    }
+                    .animation(.easeIn, value: viewModel.messages.filter({$0.role != .system}).count)
                 }
             }
             
             Spacer()
             
             HStack {
-                TextField("무엇이든 물어보세요!", text: $askingQuestion, axis: .vertical)
+                TextField("무엇이든 물어보세요!", text: $viewModel.currentInput, axis: .vertical)
                     .textFieldStyle(.roundedBorder)
                 
                 Button {
                     QuestionDataController()
-                        .addQuestion(sentence: askingQuestion, context: managedObjContext)
-                    askingQuestion = ""
+                        .addQuestion(sentence: viewModel.currentInput, context: managedObjContext)
                     
+                    viewModel.sendMessage()
                 } label: {
                     Image(systemName: "paperplane.circle.fill")
                         .font(.system(size: 28))
@@ -59,23 +59,24 @@ struct QuestionView: View {
         }
         .padding()
     }
-    
-    @ViewBuilder
-    private func askAndAnswerView(_ questionText: String, _ answerText: String) -> some View {
-        HStack {
+}
+
+@ViewBuilder
+private func messageView(message: Message) -> some View {
+    HStack {
+        if message.role == .user {
             Spacer()
-                
-            Text(questionText)
+            
+            Text(message.content)
                 .padding()
                 .background(Color(.black))
                 .foregroundColor(Color(uiColor: .systemGray6))
                 .fontWeight(.bold)
                 .cornerRadius(16)
         }
-        .padding(.bottom)
         
-        HStack {
-            Text(answerText)
+        else if message.role == .assistant {
+            Text(message.content)
                 .padding()
                 .background(Color(uiColor: .systemGray6))
                 .cornerRadius(16)
@@ -83,8 +84,8 @@ struct QuestionView: View {
             
             Spacer()
         }
-        .padding(.bottom)
     }
+    .padding(.bottom)
 }
 
 struct QuestionView_Previews: PreviewProvider {
